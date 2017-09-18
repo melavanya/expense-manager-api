@@ -4,12 +4,10 @@
   "description": "expense-manager to track expenses",
   "main": "index.js",
   "scripts": {
-    "scripts": {
     "start": "nodemon server.js",
     "test": "mocha"
   },
-  },
-  "author": "",
+  "author": "Lavanya",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.1",

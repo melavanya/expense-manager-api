@@ -1,0 +1,11 @@
+language: node_js
+node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: l+t9HKeqdW5cyHEk5VK3zKdd7tPzq3ZKfx3Fzjw/nFcYkvtiE6T0X49w1Jdj1Gq+K5D2fa5XoFxM947vTZLcotxBLMTRdCMuxmI6/oWCWRvEKW2ehKMbkkiTuQ1hqQGh+5bCjsLhghugE8Egjs7b6wL+mi0KAU2tuuYcpsGL10swUlBZMoIkbJk1FTyh2tPfPSJWrFoAJRTJQduSiBUYjfLuRme2IW20A5ut+XvLlsBrYwmEPsc5tBgKjoGrSwims20rrhUY64D1t3E1GtKTjnIbwmVESyRi8tcVxHSj08iy7/qntfEalT6FbTpWB/uYKFdoLlFnmIhBHGDloskZexoOjZ8akcaFApd9PsVAXwMyN/sWAKR9tTPnMQ5KfANhtWs4r8p/581sGkUsS196B2lknWVVKPCq4D3Ky+9rV2f1jiuEH1v555nkjx13xiHCnznnlfC4R6qNLs0povG3pR5N6gkV0MT8gpiIdvywpmhyULu00XwYbCJZpsr8noEd/Sb9OcSkSx5RyXCbYlY69uUyMB6+OQTKHO/ViE8AIvvu/MLwms4jwUX0fDSMB1XvwqX1wnJiHitBGwiEVEH5fV5HYVOJkIBwEh60GKvtdnjj3Lf9MUqfopnrE6rr9N99wMLF5GcXSaDanEaOFQHGXDs94kNzHnoGucAwFSq5FOo=
+  app: powerful-waters-93076
+  on:
+    repo: lavanya-sethuraman/expense-manager-api
