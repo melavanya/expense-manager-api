@@ -1,0 +1,22 @@
+{
+  "name": "expense-manager-api",
+  "version": "1.0.0",
+  "description": "expense-manager to track expenses",
+  "main": "index.js",
+  "scripts": {
+    "scripts": {
+    "start": "nodemon server.js",
+    "test": "mocha"
+  },
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "express": "^4.15.4",
+    "mocha": "^3.5.3",
+    "mongoose": "^4.11.12"
+  }
+}
