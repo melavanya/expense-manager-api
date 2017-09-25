@@ -7,6 +7,7 @@ const {User} = require('./models');
 const router = express.Router();
 
 const jsonParser = bodyParser.json();
+let currentUser = "";
 
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['userName', 'password'];
@@ -60,7 +61,12 @@ router.post('/', jsonParser, (req, res) => {
         })
     })
     .then(user => {
-      return res.sendStatus(201).json(user.apiRepr());
+      currentUser = user;
+      return res.status(201).json({
+        code: 201,
+        reason: '',
+        user: user.apiRepr()
+      })     
     })
     .catch(err => {
       if (err.reason === 'ValidationError') {
