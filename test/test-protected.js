@@ -12,10 +12,9 @@ chai.use(chaiHttp);
 
 
 describe('Protected endpoint', function() {
-  const username = 'exampleUser';
+  const userName = 'exampleUser';
   const password = 'examplePass';
-  const firstName = 'Example';
-  const lastName = 'User';
+  const fullName = 'Example';
 
   before(function() {
     return runServer();
@@ -28,10 +27,9 @@ describe('Protected endpoint', function() {
   beforeEach(function() {
     return User.hashPassword(password).then(password =>
       User.create({
-        username,
+        userName,
         password,
-        firstName,
-        lastName
+        fullName
       })
     );
   });
@@ -57,9 +55,8 @@ describe('Protected endpoint', function() {
 
     it('Should reject requests with an invalid token', function() {
       const token = jwt.sign({
-        username,
-        firstName,
-        lastName
+        userName,
+        fullName
       }, 'wrongSecret', {
         algorithm: 'HS256',
         expiresIn: '7d'
@@ -81,14 +78,13 @@ describe('Protected endpoint', function() {
     it('Should reject requests with an expired token', function() {
       const token = jwt.sign({
         user: {
-          username,
-          firstName,
-          lastName
+          userName,
+          fullName
         },
         exp: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
       }, JWT_SECRET, {
         algorithm: 'HS256',
-        subject: username
+        subject: userName
       });
 
       return chai.request(app)
@@ -107,13 +103,12 @@ describe('Protected endpoint', function() {
     it('Should send protected data', function() {
       const token = jwt.sign({
         user: {
-          username,
-          firstName,
-          lastName
+          userName,
+          fullName
         },
       }, JWT_SECRET, {
         algorithm: 'HS256',
-        subject: username,
+        subject: userName,
         expiresIn: '7d'
       });
 

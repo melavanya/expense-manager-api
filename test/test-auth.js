@@ -1,4 +1,4 @@
-global.DATABASE_URL = 'mongodb://localhost/jwt-auth-demo-test';
+global.DATABASE_URL = 'mongodb://localhost/expense-manager-test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
@@ -9,18 +9,13 @@ const {JWT_SECRET} = require('../config');
 
 const expect = chai.expect;
 
-
-// This let's us make HTTP requests
-// in our tests.
-// see: https://github.com/chaijs/chai-http
 chai.use(chaiHttp);
 
 
 describe('Auth endpoints', function() {
-  const username = 'exampleUser';
+  const userName = 'exampleUser';
   const password = 'examplePass';
-  const firstName = 'Example';
-  const lastName = 'User';
+  const fullName = 'Example';
 
   before(function() {
     return runServer();
@@ -33,10 +28,9 @@ describe('Auth endpoints', function() {
   beforeEach(function() {
     return User.hashPassword(password).then(password =>
       User.create({
-        username,
+        userName,
         password,
-        firstName,
-        lastName
+        fullName
       })
     );
   });
@@ -76,7 +70,7 @@ describe('Auth endpoints', function() {
     it('Should reject requests with incorrect passwords', function() {
       return chai.request(app)
         .post('/api/auth/login')
-        .auth(username, 'wrongPassword')
+        .auth(userName, 'wrongPassword')
         .then(() => expect.fail(null, null, 'Request should not succeed'))
         .catch(err => {
           if (err instanceof chai.AssertionError) {
@@ -90,7 +84,7 @@ describe('Auth endpoints', function() {
     it('Should return a valid auth token', function() {
       return chai.request(app)
         .post('/api/auth/login')
-        .auth(username, password)
+        .auth(userName, password)
         .then(res => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('object');
@@ -100,9 +94,8 @@ describe('Auth endpoints', function() {
             algorithm:  ["HS256"]
           });
           expect(payload.user).to.deep.equal({
-            username,
-            firstName,
-            lastName
+            userName,
+            fullName
           });
         })
     });
@@ -124,9 +117,8 @@ describe('Auth endpoints', function() {
     });
     it('Should reject requests with an invalid token', function() {
       const token = jwt.sign({
-        username,
-        firstName,
-        lastName
+        userName,
+        fullName
       }, 'wrongSecret', {
         algorithm: 'HS256',
         expiresIn: '7d'
@@ -148,14 +140,13 @@ describe('Auth endpoints', function() {
     it('Should reject requests with an expired token', function() {
       const token = jwt.sign({
         user: {
-          username,
-          firstName,
-          lastName
+          userName,
+          fullName
         },
         exp: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
       }, JWT_SECRET, {
         algorithm: 'HS256',
-        subject: username
+        subject: userName
       });
 
       return chai.request(app)
@@ -174,13 +165,12 @@ describe('Auth endpoints', function() {
     it('Should return a valid auth token with a newer expiry date', function() {
       const token = jwt.sign({
         user: {
-          username,
-          firstName,
-          lastName
+          userName,
+          fullName
         },
       }, JWT_SECRET, {
         algorithm: 'HS256',
-        subject: username,
+        subject: userName,
         expiresIn: '7d'
       });
       const decoded = jwt.decode(token);
@@ -197,9 +187,8 @@ describe('Auth endpoints', function() {
             algorithm:  ["HS256"]
           });
           expect(payload.user).to.deep.equal({
-            username,
-            firstName,
-            lastName
+            userName,
+            fullName
           });
           expect(payload.exp).to.be.at.least(decoded.exp);
         });
