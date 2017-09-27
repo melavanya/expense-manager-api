@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const passport = require('passport');
 const { router: usersRouter } = require('./users');
 const { router: authRouter, basicStrategy, jwtStrategy } = require('./auth');
-
+const {User} = require('./users/models');
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
@@ -29,10 +29,6 @@ app.use(passport.initialize());
 passport.use(basicStrategy);
 passport.use(jwtStrategy);
 
-// app.get('/api/*', (req, res) => {
-//   res.json({ok: true});
-// });
-
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
 
@@ -40,9 +36,17 @@ app.use('/api/auth/', authRouter);
 app.get('/api/protected',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    return res.json({
-      data: 'rosebud'
-    });
+    let {userName} = req.user;
+    console.log("current username in proctected",{userName})
+   return User
+      .findOne({userName})
+      .then(user => {
+        console.log("protected ",user)
+        return res.json({
+          data: user.expenseManagerData
+        })
+      })
+   
   }
 );
 
