@@ -18,8 +18,22 @@ const UserSchema = mongoose.Schema({
     default: ""
   },
   expenseManagerData:{
-   type: Object,
-   default: {}
+    budget: {
+      gas: 0,
+      water: 0,
+      electricity: 0,
+      tv: 0,
+      rent: 0,
+      phone: 0,
+      misc: 0,
+      groceries: 0,
+      kids: 0,
+      travel: 0,
+      restaurant: 0
+  },
+   expense: [{ value: 0, category: "", amount: 0, date: Date }],
+   anuualExpense: {},
+   totalExpense: {category: "", amount: 0},
   }
 });
 

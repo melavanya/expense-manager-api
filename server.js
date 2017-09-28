@@ -4,16 +4,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
+const cors = require('cors');
 const { router: usersRouter } = require('./users');
 const { router: authRouter, basicStrategy, jwtStrategy } = require('./auth');
 const {User} = require('./users/models');
 mongoose.Promise = global.Promise;
 
-const { PORT, DATABASE_URL } = require('./config');
+const { PORT, DATABASE_URL, CLIENT_ORIGIN } = require('./config');
 
 const app = express();
 
 app.use(morgan('common'));
+
+app.use(
+  cors({
+      origin: CLIENT_ORIGIN
+  })
+);
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
