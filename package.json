@@ -2,7 +2,7 @@
   "name": "expense",
   "version": "1.0.0",
   "description": "expense-manager to track expenses",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "mocha"
