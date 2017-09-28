@@ -57,8 +57,8 @@ app.get('/api/protected',
   }
 );
 
-app.use('*', (req, res) => {
-  return res.status(404).json({ message: 'Not Found' });
+app.get('*', (req, res) => {
+   return res.json({ok: true});
 });
 
 let server;
