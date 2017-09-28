@@ -1,5 +1,5 @@
 {
-  "name": "expense",
+  "name": "expense-manager-api",
   "version": "1.0.0",
   "description": "expense-manager to track expenses",
   "main": "server.js",
@@ -25,5 +25,9 @@
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lavanya-sethuraman/expense-manager-api.git"
   }
 }
