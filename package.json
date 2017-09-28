@@ -22,9 +22,9 @@
     "mocha": "^3.5.3",
     "mongoose": "^4.11.12",
     "morgan": "^1.8.2",
+    "nodemon": "^1.12.1",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^3.0.0"
   }
-  
 }
