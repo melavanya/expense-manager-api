@@ -10,17 +10,11 @@ const { router: authRouter, basicStrategy, jwtStrategy } = require('./auth');
 const {User} = require('./users/models');
 mongoose.Promise = global.Promise;
 
-const { PORT, DATABASE_URL, CLIENT_ORIGIN } = require('./config');
+const { PORT, DATABASE_URL} = require('./config');
 
 const app = express();
 
 app.use(morgan('common'));
-
-// app.use(
-//   cors({
-//       origin: CLIENT_ORIGIN
-//   })
-// );
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -44,17 +38,34 @@ app.get('/api/protected',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let {userName} = req.user;
-    console.log("current username in proctected",{userName})
    return User
       .findOne({userName})
       .then(user => {
-        console.log("protected ",user)
         return res.status(200).json({
           data: user.expenseManagerData
         })
       })
    
   }
+);
+
+app.put('/api/protected',
+passport.authenticate('jwt', { session: false }),
+(req, res) => {
+  let {userName} = req.user;
+  let toUpdate = {budget: {gas:400,water:75}}
+ return User
+    .findOneAndUpdate({userName},{expenseManagerData:{toUpdate}})
+    .exec()
+    .then(user => {
+      console.log("after update",user)
+      return res.status(200).json({
+        message:"success",
+        data: user.expenseManagerData
+      })
+    })
+ 
+}
 );
 
 app.get('*', (req, res) => {
