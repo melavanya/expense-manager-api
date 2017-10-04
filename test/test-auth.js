@@ -120,7 +120,7 @@ describe('Auth endpoints', function() {
         fullName
       }, 'wrongSecret', {
         algorithm: 'HS256',
-        expiresIn: '7d'
+        expiresIn: '1d'
       });
 
       return chai.request(app)
@@ -170,7 +170,7 @@ describe('Auth endpoints', function() {
       }, JWT_SECRET, {
         algorithm: 'HS256',
         subject: userName,
-        expiresIn: '7d'
+        expiresIn: '1d'
       });
       const decoded = jwt.decode(token);
 
