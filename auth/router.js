@@ -19,6 +19,20 @@ const createAuthToken = user => {
 
 const router = express.Router();
 
+router.get('/protected',
+passport.authenticate('jwt', { session: false }),
+(req, res , next) => {
+  let {userName} = req.user;
+ return User
+    .findOne({userName})
+    .then(user => {
+      return res.status(200).json({
+        data: user.expenseManagerData
+      })
+    })
+}
+);
+
 router.post('/login',
   passport.authenticate('basic', {session: false}),
   (req, res, next) => {
@@ -49,7 +63,8 @@ router.post('/budget',jsonParser, passport.authenticate('jwt', {session: false})
       budget: user.expenseManagerData.budget
     });
 });
-});
+}
+);
 
 router.post('/expense',jsonParser, passport.authenticate('jwt', {session: false}),
 (req,res,next) => {
@@ -64,6 +79,7 @@ router.post('/expense',jsonParser, passport.authenticate('jwt', {session: false}
         expense: user.expenseManagerData.expense
       });
     });
-});
+}
+);
 
 module.exports = {router};

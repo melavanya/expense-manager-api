@@ -34,22 +34,6 @@ passport.use(jwtStrategy);
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
 
-
-app.get('/api/protected',
-  passport.authenticate('jwt', { session: false }),
-  (req, res , next) => {
-    let {userName} = req.user;
-   return User
-      .findOne({userName})
-      .then(user => {
-        return res.status(200).json({
-          data: user.expenseManagerData
-        })
-      })
-   
-  }
-);
-
 app.get('*', (req, res, next) => {
    return res.status(200).json({ok: true});
 });
