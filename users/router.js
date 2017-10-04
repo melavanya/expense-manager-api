@@ -9,7 +9,7 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 let currentUser = "";
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res,next) => {
   const requiredFields = ['userName', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -76,6 +76,7 @@ router.post('/', jsonParser, (req, res) => {
     });
 });
 
+
 router.get('/', (req, res) => {
   return User
     .find()
@@ -83,4 +84,25 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
+
 module.exports = {router};
+
+// app.post('/api/budget',
+// (req, res) => {
+//   // let {userName} = req.user;
+//   // let toUpdate = {budget: {gas:400,water:75}}
+//   console.log("user in /budget",req)
+//   console.log(req.body);
+// //  return User
+// //     .findOneAndUpdate({userName},{expenseManagerData:{toUpdate}})
+// //     .exec()
+// //     .then(user => {
+// //       console.log("after update",user)
+// //       return res.status(200).json({
+// //         message:"success",
+// //         data: user.expenseManagerData
+// //       })
+// //     })
+ 
+// }
+// );

@@ -18,8 +18,9 @@ app.use(morgan('common'));
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Headers', 'Authorization,Content-Type');
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  
   if (req.method === 'OPTIONS') {
     return res.sendStatus(204);
   }
@@ -36,7 +37,7 @@ app.use('/api/auth/', authRouter);
 
 app.get('/api/protected',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res , next) => {
     let {userName} = req.user;
    return User
       .findOne({userName})
@@ -49,26 +50,7 @@ app.get('/api/protected',
   }
 );
 
-app.put('/api/protected',
-passport.authenticate('jwt', { session: false }),
-(req, res) => {
-  let {userName} = req.user;
-  let toUpdate = {budget: {gas:400,water:75}}
- return User
-    .findOneAndUpdate({userName},{expenseManagerData:{toUpdate}})
-    .exec()
-    .then(user => {
-      console.log("after update",user)
-      return res.status(200).json({
-        message:"success",
-        data: user.expenseManagerData
-      })
-    })
- 
-}
-);
-
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
    return res.status(200).json({ok: true});
 });
 
