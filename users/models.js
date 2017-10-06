@@ -33,7 +33,7 @@ const UserSchema = mongoose.Schema({
   },
    expense: [{ value: 0, category: "", amount: 0, date: Date }],
    anuualExpense: {},
-   totalExpense: {category: "", amount: 0},
+   totalExpense: {},
   }
 });
 
