@@ -73,11 +73,15 @@ router.post('/expense', jsonParser, passport.authenticate('jwt', { session: fals
     User.findOne({ userName }, function (err, user) {
       user.expenseManagerData.expense.push(addExpense);
       let expense = user.expenseManagerData.expense;
-      let grouped = lod.groupBy(expense, 'category')
-      let totalExpense = lod.mapValues(grouped, function (t) {
+      let grouped = lod.groupBy(expense, 'category');
+      let total = lod.mapValues(grouped, function (t) {
         return lod.reduce(t, function (sum, n) {
           return sum + parseInt(n.amount);
         }, 0);
+      });
+      let totallingInPairs = lod.toPairs(total);
+      var totalExpense = lod.map(totallingInPairs, function(t) {
+      return {"category": t[0], "amount": t[1]};
       });
       user.expenseManagerData.totalExpense = totalExpense;
       user.save();
@@ -89,3 +93,7 @@ router.post('/expense', jsonParser, passport.authenticate('jwt', { session: fals
 );
 
 module.exports = { router };
+
+
+
+
