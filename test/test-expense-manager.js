@@ -37,10 +37,10 @@ describe('Protected endpoint', function() {
     return User.remove({});
   });
 
-  describe('/api/protected', function() {
+  describe('/api/auth/protected', function() {
     it('Should reject requests with no credentials', function() {
       return chai.request(app)
-        .get('/api/protected')
+        .get('/api/auth/protected')
         .then(() => expect.fail(null, null, 'Request should not succeed'))
         .catch(err => {
           if (err instanceof chai.AssertionError) {
@@ -58,11 +58,11 @@ describe('Protected endpoint', function() {
         fullName
       }, 'wrongSecret', {
         algorithm: 'HS256',
-        expiresIn: '7d'
+        expiresIn: '1d'
       });
 
       return chai.request(app)
-        .get('/api/protected')
+        .get('/api/auth/protected')
         .set('Authorization', `Bearer ${token}`)
         .then(() => expect.fail(null, null, 'Request should not succeed'))
         .catch(err => {
@@ -87,7 +87,7 @@ describe('Protected endpoint', function() {
       });
 
       return chai.request(app)
-        .get('/api/protected')
+        .get('/api/auth/protected')
         .set('authorization', `Bearer ${token}`)
         .then(() => expect.fail(null, null, 'Request should not succeed'))
         .catch(err => {
@@ -108,11 +108,11 @@ describe('Protected endpoint', function() {
       }, JWT_SECRET, {
         algorithm: 'HS256',
         subject: userName,
-        expiresIn: '7d'
+        expiresIn: '1d'
       });
 
       return chai.request(app)
-        .get('/api/protected')
+        .get('/api/auth/protected')
         .set('authorization', `Bearer ${token}`)
         .then(res => {
           expect(res).to.have.status(200);
