@@ -1,7 +1,5 @@
 
 # Expense Manager
-
- **Live**:https://expense-manager.netlify.com
  
 
 ![dock](expense-manager.png)
